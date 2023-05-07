@@ -3,6 +3,7 @@ import openai
 class Translator:
   model=''
   calls=0
+  retries=3
   
   def __init__(self, config):
     openai.organization = config['org']
@@ -25,6 +26,9 @@ class Translator:
       return response.choices[0].message.content
     except Exception as e:
       print(f'OpenAI call failed: {e}')
+      if self.retries > 0:
+        self.retries = self.retries-1
+        return self.call(message)
       raise e
     
   def translate(self, raw, summary, prompt='Any text before this is a summary of the previous chapters. Translate the following into english. Do not uneccesarily remove sentences. Your response should only contain the translated text.'):
