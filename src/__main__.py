@@ -1,20 +1,14 @@
-import configparser
 import os
 
-from translate import Translator
+from config import config
 from novel import Novel
 import novels.example
 
 def main():
-  parser = configparser.ConfigParser()
-  parser.read('config.ini')
-  print(parser.sections())
-  openai = dict(parser.items('openai'))
-  print(openai)
+  print(config.openai)
 
-  translator = Translator(openai)
   name='Test Novel'
-  test_novel = Novel(name, 2, novels.example.get_next, translator, True)
+  test_novel = Novel(name, 2, novels.example.get_next, True)
   chapters=[]
   path = os.path.join(os.getcwd(), 'output', name)
   if not os.path.exists(path):
