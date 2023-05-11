@@ -2,7 +2,7 @@ import openai
 
 from config import config
 
-class _Api:
+class Api:
   model=''
   calls=0
   retries=3
@@ -32,5 +32,3 @@ class _Api:
         self.retries = self.retries-1
         return self.call(message)
       raise e
-
-api = _Api(config.openai)

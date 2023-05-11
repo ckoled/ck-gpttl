@@ -1,4 +1,7 @@
-def get_next(chapter):
+name='Example Novel'
+total_chapters=1
+
+def get_chap(chapter):
   if chapter==1:
     return '''“所以你已经过了三千多万次今天了？”
     “是，准确的说，今天刚好十万年整。”

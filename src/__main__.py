@@ -2,13 +2,15 @@ import os
 
 from config import config
 from novel import Novel
+from translate import Translator
 import novels.example
 
 def main():
   print(config.openai)
 
-  name='Test Novel'
-  test_novel = Novel(name, 2, novels.example.get_next, True)
+  name = novels.example.name
+  translator = Translator(config.openai)
+  test_novel = Novel(novels.example, translator, split_chapter=True)
   chapters=[]
   path = os.path.join(os.getcwd(), 'output', name)
   if not os.path.exists(path):
