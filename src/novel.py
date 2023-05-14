@@ -1,3 +1,5 @@
+import os
+
 from helpers import split
 
 class Novel:
@@ -31,5 +33,23 @@ class Novel:
     text = self.tl_chapter(self.current)
     self.current += 1
     return text
+  
+  def tl_novel(self, start=1, num=None, output_dir=None):
+    if output_dir is None:
+      output_dir = f'output/{self.novel_info.name}'
+    if num is None:
+      num = self.novel_info.total_chapters - start
+    
+    path = os.path.join(os.getcwd(), output_dir)
+    if not os.path.exists(path):
+      os.makedirs(path)
+      
+    self.current = start
+    chap = self.next_chapter()
+    while chap is not None and self.current <= start+num:
+      file = open(os.path.join(path, f'{self.current-1}.txt'), 'w')
+      file.write(chap)
+      file.close()
+      chap = self.next_chapter()
   
   

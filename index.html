@@ -1,0 +1,65 @@
+<!-- Copy this file to the output directory(index.html,1.txt,2.txt,...) and run python -m http.server -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <style>
+      body {
+        width: 100w;
+        height: 100h;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: rgb(36, 36, 36);
+        color: rgb(175, 175, 175);
+      }
+      p {
+        font-family: 'Roboto', sans-serif;
+        font-size: 26px;
+        line-height: 160%;
+        margin-left: 10%;
+        margin-right: 10%;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="current"></h1>
+    <div>
+      <button type="button" onclick="render(--chap)">Prev Chapter</button>
+      <button type="button" onclick="render(++chap)">Next Chapter</button>
+    </div>
+    <p id="content"></p>
+    <div>
+      <button type="button" onclick="render(--chap)">Prev Chapter</button>
+      <button type="button" onclick="render(++chap)">Next Chapter</button>
+    </div>
+    <script>
+      chap = 1
+      title = document.getElementById('current')
+      content = document.getElementById('content')
+
+      function readTextFile() {
+        file = `${chap}.txt`
+        var rawFile = new XMLHttpRequest();
+        rawFile.open("GET", file, false);
+        rawFile.onreadystatechange = function () {
+          if(rawFile.readyState === 4) {
+            if(rawFile.status === 200 || rawFile.status == 0) {
+              content.innerText = rawFile.responseText
+            } else {
+              content.innerText = 'Not Found'
+            }
+          }
+        }
+        rawFile.send(null);
+      }
+
+      function render() {
+        title.innerText = `Chapter ${chap}`
+        readTextFile()
+      }
+
+      render()
+    </script>
+  </body>
+</html>

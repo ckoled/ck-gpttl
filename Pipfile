@@ -5,6 +5,9 @@ name = "pypi"
 
 [packages]
 openai = "*"
+beautifulsoup4 = "*"
+configparser = "*"
+requests = "*"
 
 [dev-packages]
 

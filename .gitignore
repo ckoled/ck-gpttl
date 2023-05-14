@@ -1,2 +1,4 @@
 config.ini
 output/
+nvl*
+__pycache__
