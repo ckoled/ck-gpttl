@@ -20,12 +20,18 @@
         margin-left: 10%;
         margin-right: 10%;
       }
+      #chselect {
+        width: 40px;
+      }
     </style>
   </head>
   <body>
     <h1 id="current"></h1>
-    <div>
+    <div style="display: flex; flex-direction: row;">
       <button type="button" onclick="render(--chap)">Prev Chapter</button>
+      <form>
+        <input type="text" id="chselect" onblur="setChap()">
+      </form>
       <button type="button" onclick="render(++chap)">Next Chapter</button>
     </div>
     <p id="content"></p>
@@ -34,29 +40,36 @@
       <button type="button" onclick="render(++chap)">Next Chapter</button>
     </div>
     <script>
-      chap = 1
+      chap = parseInt(localStorage.getItem(window.location.href)) || 1
       title = document.getElementById('current')
       content = document.getElementById('content')
+      chselect = document.getElementById('chselect')
+
+      function setChap() {
+        chap = parseInt(chselect.value) || chap
+        render()
+      }
 
       function readTextFile() {
         file = `${chap}.txt`
-        var rawFile = new XMLHttpRequest();
+        rawFile = new XMLHttpRequest();
         rawFile.open("GET", file, false);
         rawFile.onreadystatechange = function () {
-          if(rawFile.readyState === 4) {
-            if(rawFile.status === 200 || rawFile.status == 0) {
+          if(rawFile.readyState === 4)
+            if(rawFile.status === 200 || rawFile.status == 0)
               content.innerText = rawFile.responseText
-            } else {
+            else
               content.innerText = 'Not Found'
-            }
-          }
         }
         rawFile.send(null);
       }
 
       function render() {
         title.innerText = `Chapter ${chap}`
+        chselect.value = chap
         readTextFile()
+        // check localstorage occasionally, this does not expire
+        localStorage.setItem(window.location.href, chap)
       }
 
       render()

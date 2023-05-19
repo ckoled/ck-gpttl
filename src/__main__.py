@@ -9,7 +9,7 @@ def main():
   translator = Translator(config.openai)
   
   test_novel = Novel(novels.example, translator, split_chapter=True)
-  test_novel.tl_novel(num=1)
+  test_novel.tl_novel(num=1, copy_index=True)
   
 if __name__ == "__main__":
     main()

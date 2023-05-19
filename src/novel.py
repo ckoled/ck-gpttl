@@ -1,4 +1,5 @@
 import os
+import shutil
 
 from helpers import split
 
@@ -34,7 +35,7 @@ class Novel:
     self.current += 1
     return text
   
-  def tl_novel(self, start=1, num=None, output_dir=None):
+  def tl_novel(self, start=1, num=None, output_dir=None, copy_index=False):
     if output_dir is None:
       output_dir = f'output/{self.novel_info.name}'
     if num is None:
@@ -44,12 +45,17 @@ class Novel:
     if not os.path.exists(path):
       os.makedirs(path)
       
+    if copy_index:
+      shutil.copy('_index.html', os.path.join(path, 'index.html'))
+      
     self.current = start
     chap = self.next_chapter()
-    while chap is not None and self.current <= start+num:
+    while chap is not None:
       file = open(os.path.join(path, f'{self.current-1}.txt'), 'w')
       file.write(chap)
       file.close()
+      if self.current > start+num:
+        break
       chap = self.next_chapter()
   
   
