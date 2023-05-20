@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h1>Novel List</h1>
+    <ul id="novel-list"></ul>
+    <script>
+      novelList = document.getElementById('novel-list')
+
+      function createNode(name) {
+        node = document.createElement('li')
+        link = document.createElement('a')
+        link.href = `/${name}`
+        link.innerHTML = name
+        node.appendChild(link)
+        return node
+      }
+
+      function buildSiteMap() {
+        fetch('/sitemap.json')
+          .then(res => res.json().then(sitemap => {
+            console.log(sitemap)
+            Object.entries(sitemap).forEach(([k,v]) => {
+              node = createNode(k)
+              novelList.appendChild(node)
+            })
+          }))
+          .catch(_ => {
+            console.error('Unable to fetch sitemap')
+          })
+      }
+
+      function render() {
+        buildSiteMap()
+      }
+      render()
+    </script>
+  </body>
+</html>
