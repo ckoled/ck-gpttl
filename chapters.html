@@ -32,7 +32,7 @@
     <h1 id="current"></h1>
     <div style="display: flex; flex-direction: row;">
       <button type="button" onclick="render(--chap)">Prev Chapter</button>
-      <form>
+      <form onsubmit="event.preventDefault(); setChap()">
         <input type="text" id="chselect" onblur="setChap()">
       </form>
       <button type="button" onclick="render(++chap)">Next Chapter</button>

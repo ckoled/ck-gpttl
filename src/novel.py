@@ -1,23 +1,24 @@
 import os
 
-from helpers import split
+import helpers
 
 class Novel:
+  current=1
   summary=''
   chaps_completed=0
   
-  def __init__(self, novel_info, translator, current=1, split_chapter=False, split_length=1500) -> None:
+  def __init__(self, novel_info, translator, split_chapter=False, split_length=1500) -> None:
     self.novel_info = novel_info
     self.translator = translator
-    self.current = current
     self.split_chapter = split_chapter
     self.split_length = split_length
     
   def tl_chapter(self, chapter):
     raw = self.novel_info.get_chap(chapter)
+    raw = helpers.clean(raw)
     text = ''
     if self.split_chapter:
-      sections = split(raw, self.split_length)
+      sections = helpers.split(raw, self.split_length)
       section_summary = ''
       for section in sections:
         section_text = self.translator.translate(section, f'{self.summary} {section_summary}')
@@ -50,7 +51,7 @@ class Novel:
     self.current = start
     chap = self.next_chapter()
     while chap is not None:
-      file = open(os.path.join(path, f'{self.current-1}.txt'), 'w')
+      file = open(os.path.join(path, f'{self.current-1}.txt'), 'w', encoding='utf-8')
       file.write(chap)
       file.close()
       if self.current >= start+num:

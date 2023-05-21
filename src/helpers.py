@@ -1,6 +1,12 @@
+def clean(raw):
+  raw = raw.replace('\u3000', '\n')
+  return raw
+
+def recode(text):
+  return text.encode('ascii', 'ignore').decode()
+
 def split(raw, length):
     sections = []
-    raw = raw.replace('\u3000', '\n')
     lines = raw.split('\n')
     section = ''
     for line in lines:
